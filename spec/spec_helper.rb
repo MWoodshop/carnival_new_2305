@@ -1,8 +1,10 @@
-require 'date'
+require 'rspec'
 require 'pry'
-require './lib/visitor'
-require './lib/ride'
-require './lib/carnival'
+
+require 'date'
+require 'visitor'
+require 'ride'
+require 'carnival'
 
 RSpec.configure do |config|
   config.formatter = :documentation
