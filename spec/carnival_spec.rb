@@ -113,5 +113,22 @@ RSpec.describe Carnival do
 
       expect(summary.keys).to contain_exactly(:visitor_count, :revenue_earned, :visitors, :rides)
     end
+
+    it 'returns correct visitor_count' do
+      @visitor1.add_preference(:gentle)
+      @visitor2.add_preference(:gentle)
+      @visitor2.add_preference(:thrilling)
+      @visitor3.add_preference(:thrilling)
+
+      @ride1.board_rider(@visitor1)
+      @ride1.board_rider(@visitor2)
+      @ride1.board_rider(@visitor3)
+      @ride2.board_rider(@visitor1)
+      @ride3.board_rider(@visitor3)
+
+      summary = @carnival1.summary
+
+      expect(summary[:visitor_count]).to eq(4)
+    end
   end
 end
