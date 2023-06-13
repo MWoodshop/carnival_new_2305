@@ -12,6 +12,10 @@ RSpec.describe Carnival do
     @visitor1 = Visitor.new('Bruce', 54, '$10')
     @visitor2 = Visitor.new('Tucker', 36, '$5')
     @visitor3 = Visitor.new('Penny', 64, '$15')
+
+    @carnival1.add_ride(@ride1)
+    @carnival1.add_ride(@ride2)
+    @carnival1.add_ride(@ride3)
   end
 
   describe '#initialize' do
@@ -22,17 +26,33 @@ RSpec.describe Carnival do
 
   describe '#add_ride' do
     it 'can add rides' do
-      @carnival1 = Carnival.new(14)
-      @ride1 = Ride.new({ name: 'Carousel', min_height: 24, admission_fee: 1, excitement: :gentle })
-
-      @carnival1.add_ride(@ride1)
-
-      expect(@carnival1.rides).to eq([@ride1])
+      expect(@carnival1.rides).to eq([@ride1, @ride2, @ride3])
     end
   end
 
   describe '#most_popular_ride' do
     it 'can find the most popular ride' do
+      @visitor1.add_preference(:gentle)
+      @visitor2.add_preference(:gentle)
+      @visitor2.add_preference(:thrilling)
+      @visitor3.add_preference(:thrilling)
+
+      @ride1.board_rider(@visitor1)
+      @ride1.board_rider(@visitor2)
+      @ride1.board_rider(@visitor3)
+      @ride2.board_rider(@visitor1)
+
+      expect(@carnival1.most_popular_ride).to eq(@ride1)
+    end
+
+    it 'will return {} if rider_log is empty' do
+      @ride1.board_rider(@visitor1)
+      @ride1.board_rider(@visitor2)
+      @ride1.board_rider(@visitor3)
+
+      @ride2.board_rider(@visitor1)
+
+      expect(@carnival1.most_popular_ride).to eq({})
     end
   end
 end
