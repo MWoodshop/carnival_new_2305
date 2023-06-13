@@ -4,6 +4,7 @@ RSpec.describe Carnival do
   before(:each) do
     @carnival1 = Carnival.new(14)
     @carnival2 = Carnival.new(7)
+    @carnival3 = Carnival.new(10)
 
     @ride1 = Ride.new({ name: 'Carousel', min_height: 24, admission_fee: 1, excitement: :gentle })
     @ride2 = Ride.new({ name: 'Ferris Wheel', min_height: 36, admission_fee: 5, excitement: :gentle })
@@ -16,6 +17,11 @@ RSpec.describe Carnival do
     @carnival1.add_ride(@ride1)
     @carnival1.add_ride(@ride2)
     @carnival1.add_ride(@ride3)
+
+    @carnival2.add_ride(@ride1)
+
+    @carnival3.add_ride(@ride1)
+    @carnival3.add_ride(@ride2)
   end
 
   describe '#initialize' do
@@ -185,6 +191,22 @@ RSpec.describe Carnival do
       expect(ride_summary).to include(a_hash_including(ride: @ride1, riders: [@visitor1, @visitor2], total_revenue: 2))
       expect(ride_summary).to include(a_hash_including(ride: @ride2, riders: [@visitor1], total_revenue: 5))
       expect(ride_summary).to include(a_hash_including(ride: @ride3, riders: [@visitor3], total_revenue: 2))
+    end
+
+    it 'returns correct total_revenue on multiple carnivals' do
+      @visitor1.add_preference(:gentle)
+      @visitor2.add_preference(:gentle)
+      @visitor2.add_preference(:thrilling)
+      @visitor3.add_preference(:thrilling)
+
+      @ride1.board_rider(@visitor1)
+      @ride1.board_rider(@visitor2)
+      @ride1.board_rider(@visitor3)
+      @ride2.board_rider(@visitor1)
+      @ride3.board_rider(@visitor3)
+      total_revenue = Carnival.total_revenue([@carnival1, @carnival2, @carnival3])
+
+      expect(total_revenue).to eq(18)
     end
   end
 end
