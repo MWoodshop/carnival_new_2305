@@ -12,7 +12,11 @@ class Visitor
     @preferences << preference
   end
 
-  def tall_enough?(height)
-    @height >= height
+  def tall_enough?(ride)
+    @height >= ride.min_height
   end
+
+  # def has_matching_preference?(ride)
+  #   @preferences.include?(ride.excitement)
+  # end
 end
