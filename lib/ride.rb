@@ -14,4 +14,11 @@ class Ride
     @total_revenue = 0
     @rider_log = {}
   end
+
+  def board_rider(visitor)
+    return unless visitor.tall_enough?(self)
+
+    @rider_log[visitor] ||= 0
+    @rider_log[visitor] += 1
+  end
 end
