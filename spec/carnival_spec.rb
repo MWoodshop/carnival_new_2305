@@ -166,5 +166,25 @@ RSpec.describe Carnival do
       expect(visitor_summary).to include(a_hash_including(visitor: @visitor1, favorite_ride: @ride1,
                                                           total_money_spent: 4))
     end
+
+    it 'returns correct ride summary' do
+      @visitor1.add_preference(:gentle)
+      @visitor2.add_preference(:gentle)
+      @visitor2.add_preference(:thrilling)
+      @visitor3.add_preference(:thrilling)
+
+      @ride1.board_rider(@visitor1)
+      @ride1.board_rider(@visitor2)
+      @ride1.board_rider(@visitor3)
+      @ride2.board_rider(@visitor1)
+      @ride3.board_rider(@visitor3)
+
+      summary = @carnival1.summary
+
+      ride_summary = summary[:rides]
+      expect(ride_summary).to include(a_hash_including(ride: @ride1, riders: [@visitor1, @visitor2], total_revenue: 2))
+      expect(ride_summary).to include(a_hash_including(ride: @ride2, riders: [@visitor1], total_revenue: 5))
+      expect(ride_summary).to include(a_hash_including(ride: @ride3, riders: [@visitor3], total_revenue: 2))
+    end
   end
 end
