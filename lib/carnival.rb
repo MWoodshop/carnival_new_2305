@@ -48,12 +48,14 @@ class Carnival
       rides: ride_summary }
   end
 
-  def self.total_revenues(carnivals)
+  # Helper class method for total_revenue in summary
+  def self.total_revenue(carnivals)
     carnivals.sum { |carnival| carnival.total_revenue }
   end
 
   private
 
+  # Helper instance method for most_ridden_ride in summary
   def most_ridden_ride(visitor)
     @rides.max_by { |ride| ride.rider_log[visitor] || 0 }
   end
