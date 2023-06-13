@@ -130,5 +130,22 @@ RSpec.describe Carnival do
 
       expect(summary[:visitor_count]).to eq(4)
     end
+
+    it 'returns correct total_revenue' do
+      @visitor1.add_preference(:gentle)
+      @visitor2.add_preference(:gentle)
+      @visitor2.add_preference(:thrilling)
+      @visitor3.add_preference(:thrilling)
+
+      @ride1.board_rider(@visitor1)
+      @ride1.board_rider(@visitor2)
+      @ride1.board_rider(@visitor3)
+      @ride2.board_rider(@visitor1)
+      @ride3.board_rider(@visitor3)
+
+      summary = @carnival1.summary
+
+      expect(summary[:revenue_earned]).to eq(9)
+    end
   end
 end
