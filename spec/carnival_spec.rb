@@ -95,4 +95,23 @@ RSpec.describe Carnival do
       expect(@carnival1.total_revenue).to eq({})
     end
   end
+
+  describe '#summary' do
+    it 'returns a hash with the correct keys' do
+      @visitor1.add_preference(:gentle)
+      @visitor2.add_preference(:gentle)
+      @visitor2.add_preference(:thrilling)
+      @visitor3.add_preference(:thrilling)
+
+      @ride1.board_rider(@visitor1)
+      @ride1.board_rider(@visitor2)
+      @ride1.board_rider(@visitor3)
+      @ride2.board_rider(@visitor1)
+      @ride3.board_rider(@visitor3)
+
+      summary = @carnival1.summary
+
+      expect(summary.keys).to contain_exactly(:visitor_count, :revenue_earned, :visitors, :rides)
+    end
+  end
 end
