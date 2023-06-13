@@ -55,4 +55,44 @@ RSpec.describe Carnival do
       expect(@carnival1.most_popular_ride).to eq({})
     end
   end
+
+  describe '#most_profitable_ride' do
+    it 'can find the most profitable ride' do
+      @visitor1.add_preference(:gentle)
+      @visitor2.add_preference(:gentle)
+      @visitor2.add_preference(:thrilling)
+      @visitor3.add_preference(:thrilling)
+
+      @ride1.board_rider(@visitor1)
+      @ride1.board_rider(@visitor2)
+      @ride1.board_rider(@visitor3)
+      @ride2.board_rider(@visitor1)
+
+      expect(@carnival1.most_profitable_ride).to eq(@ride2)
+    end
+
+    it 'will return {} if all rides have total_revenue = 0' do
+      expect(@carnival1.most_profitable_ride).to eq({})
+    end
+  end
+
+  describe 'total_revenue' do
+    it 'can calculate total revenue' do
+      @visitor1.add_preference(:gentle)
+      @visitor2.add_preference(:gentle)
+      @visitor2.add_preference(:thrilling)
+      @visitor3.add_preference(:thrilling)
+
+      @ride1.board_rider(@visitor1)
+      @ride1.board_rider(@visitor2)
+      @ride1.board_rider(@visitor3)
+      @ride2.board_rider(@visitor1)
+
+      expect(@carnival1.total_revenue).to eq(7)
+    end
+
+    it 'will return {} if carnival (the rides) have no revenue' do
+      expect(@carnival1.total_revenue).to eq({})
+    end
+  end
 end
