@@ -16,7 +16,7 @@ class Ride
   end
 
   def board_rider(visitor)
-    return unless visitor.tall_enough?(self) && visitor.matching_preference?(self)
+    return unless visitor.tall_enough?(min_height) && visitor.matching_preference?(self)
 
     visitor.reduce_spending_money(@admission_fee)
 
