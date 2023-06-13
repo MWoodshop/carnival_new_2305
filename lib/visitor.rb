@@ -4,7 +4,7 @@ class Visitor
   def initialize(name, height, spending_money)
     @name = name
     @height = height
-    @spending_money = spending_money
+    @spending_money = convert_to_integer(spending_money)
     @preferences = []
   end
 
@@ -16,7 +16,17 @@ class Visitor
     @height >= ride.min_height
   end
 
-  # def has_matching_preference?(ride)
-  #   @preferences.include?(ride.excitement)
-  # end
+  def matching_preference?(ride)
+    @preferences.include?(ride.excitement)
+  end
+
+  def reduce_spending_money(amount)
+    @spending_money -= amount
+  end
+
+  private
+
+  def convert_to_integer(money)
+    money.delete('$').to_i
+  end
 end
